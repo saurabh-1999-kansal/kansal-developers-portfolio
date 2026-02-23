@@ -7,9 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet"/>
 
   <script>
-    /* ============================================================
-       EDITABLE IMAGE VARIABLES — Update URLs here any time
-    ============================================================ */
     const IMAGES = {
       hero:        "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1800&q=80",
       residential: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=900&q=80",
@@ -20,9 +17,6 @@
       whyUs:       "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=1200&q=80",
     };
 
-    /* ============================================================
-       EDITABLE CONTACT VARIABLES — Update details here any time
-    ============================================================ */
     const CONTACT = {
       phone:      "9891922728",
       whatsapp1:  "9891922728",
@@ -31,7 +25,6 @@
       areas:      "Faridabad, Noida, Gurugram",
     };
 
-    /* Apply images after DOM loads */
     window.addEventListener("DOMContentLoaded", () => {
       document.getElementById("hero-bg").style.backgroundImage      = `url('${IMAGES.hero}')`;
       document.getElementById("about-img").src                      = IMAGES.about;
@@ -50,6 +43,20 @@
       document.getElementById("contact-email").textContent   = CONTACT.email;
       document.getElementById("contact-email").href          = `mailto:${CONTACT.email}`;
       document.getElementById("contact-areas").textContent   = CONTACT.areas;
+
+      /* Top bar links */
+      document.getElementById("topbar-phone").href    = `tel:${CONTACT.phone}`;
+      document.getElementById("topbar-phone").querySelector("span.tb-val").textContent = CONTACT.phone;
+      document.getElementById("topbar-wa").href       = `https://wa.me/91${CONTACT.whatsapp1}`;
+      document.getElementById("topbar-wa").querySelector("span.tb-val").textContent    = CONTACT.whatsapp1;
+      document.getElementById("topbar-email").href    = `mailto:${CONTACT.email}`;
+      document.getElementById("topbar-email").querySelector("span.tb-val").textContent = CONTACT.email;
+      document.getElementById("topbar-areas").textContent = CONTACT.areas;
+
+      /* CTA buttons */
+      document.getElementById("cta-call").href  = `tel:${CONTACT.phone}`;
+      document.getElementById("cta-wa").href    = `https://wa.me/91${CONTACT.whatsapp1}`;
+      document.getElementById("cta-mail").href  = `mailto:${CONTACT.email}`;
     });
   </script>
 
@@ -69,6 +76,7 @@
       --ff-head: 'Cormorant Garamond', Georgia, serif;
       --ff-body: 'Barlow', sans-serif;
       --ff-cond: 'Barlow Condensed', sans-serif;
+      --topbar-h: 38px;
     }
 
     html { scroll-behavior: smooth; }
@@ -80,20 +88,90 @@
       overflow-x: hidden;
     }
 
-    /* ── SCROLLBAR ─────────────────── */
     ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: var(--dark); }
     ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
 
+    /* ── TOP CONTACT BAR ───────────── */
+    .top-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 101;
+      height: var(--topbar-h);
+      background: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 4rem;
+      animation: slideDown 0.6s ease both;
+    }
+
+    .top-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .top-bar-left .tb-location-icon {
+      font-size: 0.7rem;
+      opacity: 0.7;
+    }
+
+    #topbar-areas {
+      font-family: var(--ff-cond);
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--dark);
+      opacity: 0.75;
+    }
+
+    .top-bar-right {
+      display: flex;
+      align-items: center;
+      gap: 1.8rem;
+    }
+
+    .tb-link {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      text-decoration: none;
+      color: var(--dark);
+      transition: opacity 0.2s;
+    }
+    .tb-link:hover { opacity: 0.65; }
+
+    .tb-icon {
+      font-size: 0.75rem;
+      line-height: 1;
+    }
+
+    .tb-val {
+      font-family: var(--ff-cond);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+    }
+
+    .tb-sep {
+      width: 1px;
+      height: 14px;
+      background: rgba(13,13,13,0.25);
+    }
+
     /* ── NAV ───────────────────────── */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      position: fixed;
+      top: var(--topbar-h);
+      left: 0; right: 0;
+      z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
       padding: 1.2rem 4rem;
-      background: rgba(13,13,13,0.88);
+      background: rgba(13,13,13,0.92);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(201,168,76,0.15);
-      animation: slideDown 0.8s ease both;
+      animation: slideDown 0.8s 0.1s ease both;
     }
 
     @keyframes slideDown { from { opacity:0; transform:translateY(-100%); } to { opacity:1; transform:translateY(0); } }
@@ -132,6 +210,7 @@
     /* ── HERO ──────────────────────── */
     #hero-bg {
       min-height: 100vh;
+      padding-top: calc(var(--topbar-h) + 72px);
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
@@ -295,13 +374,10 @@
       gap: 5rem;
       align-items: center;
     }
-    .about-img-wrap {
-      position: relative;
-    }
+    .about-img-wrap { position: relative; }
     .about-img-wrap img {
       width: 100%; height: 520px;
-      object-fit: cover;
-      display: block;
+      object-fit: cover; display: block;
     }
     .about-img-wrap::after {
       content: '';
@@ -411,11 +487,7 @@
       border-color: var(--gold);
       background: rgba(201,168,76,0.07);
     }
-    .reason-icon {
-      font-size: 1.5rem;
-      margin-bottom: 0.6rem;
-      display: block;
-    }
+    .reason-icon { font-size: 1.5rem; margin-bottom: 0.6rem; display: block; }
     .reason-title {
       font-family: var(--ff-cond);
       font-size: 0.78rem;
@@ -434,7 +506,6 @@
       align-items: start;
     }
     .contact-info { display: flex; flex-direction: column; gap: 2rem; margin-top: 2rem; }
-    .contact-block {}
     .contact-block-label {
       font-family: var(--ff-cond);
       font-size: 0.6rem;
@@ -520,27 +591,6 @@
       text-transform: uppercase;
     }
 
-    /* ── RESPONSIVE ────────────────── */
-    @media (max-width: 1024px) {
-      nav { padding: 1rem 2rem; }
-      .nav-links { gap: 1.5rem; }
-      section { padding: 5rem 2rem; }
-      .stats-bar { grid-template-columns: repeat(2, 1fr); padding: 2rem; }
-      .hero-content { padding: 0 2rem; }
-      .about-grid, .whyus-grid, .contact-wrapper { grid-template-columns: 1fr; gap: 3rem; }
-      .service-cards { grid-template-columns: 1fr; }
-      footer { padding: 1.5rem 2rem; }
-    }
-    @media (max-width: 600px) {
-      .nav-links { display: none; }
-      .hero-content { padding: 0 1.5rem; }
-      section { padding: 4rem 1.5rem; }
-      .stats-bar { grid-template-columns: 1fr 1fr; padding: 1.5rem; }
-      .reasons-grid { grid-template-columns: 1fr; }
-      .contact-cta-box { padding: 2rem; }
-      footer { flex-direction: column; text-align: center; padding: 1.5rem; }
-    }
-
     /* ── SCROLL REVEAL ─────────────── */
     .reveal {
       opacity: 0;
@@ -551,9 +601,73 @@
       opacity: 1;
       transform: translateY(0);
     }
+
+    /* ── RESPONSIVE ────────────────── */
+    @media (max-width: 1024px) {
+      .top-bar { padding: 0 2rem; }
+      nav { padding: 1rem 2rem; }
+      .nav-links { gap: 1.5rem; }
+      section { padding: 5rem 2rem; }
+      .stats-bar { grid-template-columns: repeat(2, 1fr); padding: 2rem; }
+      .hero-content { padding: 0 2rem; }
+      .about-grid, .whyus-grid, .contact-wrapper { grid-template-columns: 1fr; gap: 3rem; }
+      .service-cards { grid-template-columns: 1fr; }
+      footer { padding: 1.5rem 2rem; }
+    }
+
+    @media (max-width: 768px) {
+      :root { --topbar-h: 32px; }
+
+      /* On mobile, hide location text and show only 2 contact items */
+      .top-bar-left { display: none; }
+      .top-bar { justify-content: center; gap: 0; }
+      .top-bar-right { gap: 0; width: 100%; justify-content: space-around; }
+      .tb-sep { display: none; }
+      .tb-link { flex-direction: column; gap: 0.15rem; padding: 0 0.5rem; }
+      .tb-icon { font-size: 0.9rem; }
+      .tb-val { font-size: 0.58rem; letter-spacing: 0.06em; }
+
+      /* Hide email on small screens to avoid overflow */
+      #topbar-email { display: none; }
+    }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .hero-content { padding: 0 1.5rem; }
+      section { padding: 4rem 1.5rem; }
+      .stats-bar { grid-template-columns: 1fr 1fr; padding: 1.5rem; }
+      .reasons-grid { grid-template-columns: 1fr; }
+      .contact-cta-box { padding: 2rem; }
+      footer { flex-direction: column; text-align: center; padding: 1.5rem; }
+      #hero-bg { background-attachment: scroll; }
+    }
   </style>
 </head>
 <body>
+
+  <!-- TOP CONTACT BAR -->
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <span class="tb-location-icon">📍</span>
+      <span id="topbar-areas"></span>
+    </div>
+    <div class="top-bar-right">
+      <a id="topbar-phone" class="tb-link" href="#">
+        <span class="tb-icon">📞</span>
+        <span class="tb-val"></span>
+      </a>
+      <span class="tb-sep"></span>
+      <a id="topbar-wa" class="tb-link" href="#">
+        <span class="tb-icon">💬</span>
+        <span class="tb-val"></span>
+      </a>
+      <span class="tb-sep"></span>
+      <a id="topbar-email" class="tb-link" href="#">
+        <span class="tb-icon">✉️</span>
+        <span class="tb-val"></span>
+      </a>
+    </div>
+  </div>
 
   <!-- NAV -->
   <nav>
@@ -638,7 +752,6 @@
     </div>
 
     <div class="service-cards">
-
       <div class="service-card reveal" id="card-residential">
         <div class="service-card-content">
           <span class="service-card-num">01 — Residential</span>
@@ -693,7 +806,6 @@
           </ul>
         </div>
       </div>
-
     </div>
   </section>
 
@@ -799,13 +911,6 @@
   </footer>
 
   <script>
-    /* Wire up CTA buttons from CONTACT variables */
-    window.addEventListener("DOMContentLoaded", () => {
-      document.getElementById("cta-call").href  = `tel:${CONTACT.phone}`;
-      document.getElementById("cta-wa").href    = `https://wa.me/91${CONTACT.whatsapp1}`;
-      document.getElementById("cta-mail").href  = `mailto:${CONTACT.email}`;
-    });
-
     /* Scroll Reveal */
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => {
